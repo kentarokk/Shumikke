@@ -4,6 +4,36 @@ import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import { Authenticator } from "@aws-amplify/ui-vue";
 import "@aws-amplify/ui-vue/styles.css";
+import { I18n } from "aws-amplify/utils"; // AmplifyのI18n機能をインポート
+
+// 日本語の翻訳設定
+const dict = {
+  ja: {
+    'Sign In': 'サインイン',
+    'Sign in': 'サインイン',
+    'Sign Up': 'サインアップ',
+    'Sign Out': 'サインアウト',
+    'Email': 'メールアドレス',
+    'Enter your Email': 'メールアドレスを入力してください',
+    'Enter your Password': 'パスワードを入力してください',
+    'Confirm Password': 'パスワード確認',
+    'Please confirm your Password': 'パスワードをもう一度入力してください',
+    'Username': 'ユーザー名',
+    'Password': 'パスワード',
+    'Forgot your password?': 'パスワードをお忘れですか？',
+    'Reset your password': 'パスワードをリセット',
+    'No account?': 'アカウントをお持ちでないですか？',
+    'Create Account': 'アカウント作成',
+    'Back to Sign In': 'サインインに戻る',
+    'Send Code': 'コードを送信',
+    'Confirm': '確認',
+    'Resend Code': 'コードを再送信',
+  }
+};
+
+
+I18n.putVocabularies(dict);
+I18n.setLanguage('ja');
 </script>
 
 <template>
@@ -19,14 +49,12 @@ import "@aws-amplify/ui-vue/styles.css";
 </template>
 
 <style>
-/* ボタンやリンクの色を変更 */
 :root {
   --amplify-primary-color: #00c0a3 !important;
   --amplify-primary-tint: #00c0a3 !important;
   --amplify-primary-shade: #00c0a3 !important;
 }
 
-/* Authenticator全体を上下中央に配置 */
 .auth-wrapper {
   display: flex !important;
   flex-direction: column !important;
@@ -35,24 +63,20 @@ import "@aws-amplify/ui-vue/styles.css";
   height: 100vh !important;
 }
 
-/* ボタンの背景色を変更 */
 .amplify-button {
   background-color: #00c0a3 !important;
-  color: white !important; /* ボタンの文字色も白に */
+  color: white !important;
 }
 
-/* Sign in / Sign out 選択部分のカスタマイズ */
 .amplify-tabs > button {
   background-color: #00c0a3 !important;
-  color: white !important; /* ボタンの文字色を白に変更 */
+  color: white !important;
 }
 
-/* Forgot your password? リンクの文字色を白に */
 .amplify-field-group__control a {
   color: white !important;
 }
 
-/* Forgot password リンクがホバーされたときの色 */
 .amplify-field-group__control a:hover {
   color: #00c0a3 !important;
 }
@@ -67,5 +91,3 @@ import "@aws-amplify/ui-vue/styles.css";
   background-color: white;
 }
 </style>
-
-
