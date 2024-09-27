@@ -10,7 +10,8 @@ import "@aws-amplify/ui-vue/styles.css";
   <main>
     <!-- Authenticator コンポーネントのスロットから signOut 関数を取得 -->
     <authenticator v-slot="{ signOut }">
-      <Header :signOut="signOut" /> <!-- signOut を Header に渡す -->
+      <Header :signOut="signOut" />
+      <!-- signOut を Header に渡す -->
       <div class="marginHeader"></div>
       <router-view />
       <div class="marginFooter"></div>
