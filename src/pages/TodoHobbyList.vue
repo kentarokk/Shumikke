@@ -3,10 +3,10 @@
     <div class="Wrapper">
       <div class="main">
         <ul class="cardWrapper">
-          <li v-for="hobby in hobbies" :key="hobby.id" class="card">
+          <li v-for="hobby in hobbies" :key="hobby.hobbies_id" class="card">
             <router-link class="router" to="/hobbypost">
-              <img :src="hobby.img" />
-              <p>{{ hobby.title }}</p>
+              <img :src="getImageUrl(hobby.hobbies_photo)" />
+              <p>{{ hobby.hobbies_name }}</p>
             </router-link>
           </li>
         </ul>
@@ -16,39 +16,37 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   mounted() {
-    alert("やりたい趣味リストを取得する");
+    axios
+      .get(
+        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=1"
+      )
+      .then((response) => {
+        this.hobbies = response.data.map(hobby => ({
+          ...hobby,
+          hobbies_photo: this.getImageUrl(hobby.hobbies_photo.trim())
+        }));
+      })
+      .catch((error) => {
+        console.error("Error fetching hobbies:", error);
+      });
   },
   data() {
     return {
-      hobby: {
-        img: "画像",
-        title: "タイトル",
-        discription: "説明",
-      },
-      hobbies: [
-        {
-          id: 1,
-          img: "image/soccer01.jpg",
-          title: "サッカー",
-          discription: "球を蹴るスポーツです。",
-        },
-        {
-          id: 3,
-          img: "image/anime.jpg",
-          title: "アニメ鑑賞",
-          discription: "アニメを見ます。。",
-        },
-        {
-          id: 2,
-          img: "image/kendama.jpg",
-          title: "けん玉",
-          discription: "日本の伝統的な遊びです。",
-        },
-      ],
+      hobbies: [],
     };
   },
+  methods: {
+    getImageUrl(s3Url) {
+      if (s3Url.startsWith("s3://")) {
+        return s3Url.replace("s3://smk-data-bucket", "https://smk-data-bucket.s3.ap-northeast-1.amazonaws.com");
+      }
+      return s3Url;
+    }
+  }
 };
 </script>
 
