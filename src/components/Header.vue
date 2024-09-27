@@ -1,24 +1,34 @@
 <template>
   <div class="header">
+    <!-- 左側のプロフィール画像 -->
     <img :src="profileImageUrl" class="logo" />
+    
+    <!-- 中央のページタイトル -->
     <div class="pageTitle">
       <p>{{ pageTitle }}</p>
     </div>
+    
+    <!-- 右側のサインアウトボタン -->
+    <button class="signOutBtn" @click="signOut">Sign Out</button>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      profileImageUrl: "image/AdobeStock_505447855_Preview.jpeg",
-    };
-  },
   props: {
     pageTitle: {
       type: String,
       required: true,
     },
+    signOut: {
+      type: Function,
+      required: true,  // App.vue から渡される signOut 関数が必須
+    },
+  },
+  data() {
+    return {
+      profileImageUrl: "image/AdobeStock_505447855_Preview.jpeg",
+    };
   },
   name: "MainHeader",
 };
@@ -34,7 +44,7 @@ export default {
   position: fixed;
   z-index: 1;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* スペースを均等に分ける */
   align-items: center;
   padding: 0 10px;
 }
@@ -49,19 +59,29 @@ export default {
   padding: 10px;
   border-radius: 50%;
 }
+
 .pageTitle {
-  width: 100%;
-  height: 60px;
+  flex-grow: 1; /* タイトル部分が中央に来るようにする */
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  z-index: 2;
-  top: 2px;
-  margin: 0 auto;
 }
+
 .pageTitle p {
   color: white;
   font-size: 22px;
+}
+
+.signOutBtn {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.signOutBtn:hover {
+  color: #ff5e5e;
 }
 </style>

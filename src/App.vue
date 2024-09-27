@@ -2,15 +2,20 @@
 import "normalize.css";
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
+import { Authenticator } from "@aws-amplify/ui-vue";
+import "@aws-amplify/ui-vue/styles.css";
 </script>
 
 <template>
   <main>
-    <Header />
-    <div class="marginHeader"></div>
-    <router-view />
-    <div class="marginFooter"></div>
-    <Footer />
+    <!-- Authenticator コンポーネントのスロットから signOut 関数を取得 -->
+    <authenticator v-slot="{ signOut }">
+      <Header :signOut="signOut" /> <!-- signOut を Header に渡す -->
+      <div class="marginHeader"></div>
+      <router-view />
+      <div class="marginFooter"></div>
+      <Footer />
+    </authenticator>
   </main>
 </template>
 
