@@ -9,7 +9,9 @@
     </div>
     
     <!-- 右側のサインアウトボタン -->
-    <button class="signOutBtn" @click="signOut">サインアウト</button>
+    <button class="signOutBtn" @click="signOut">
+    <i class="fas fa-sign-out-alt"></i>
+  </button>
   </div>
 </template>
 
