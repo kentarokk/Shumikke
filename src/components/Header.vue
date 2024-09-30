@@ -9,7 +9,7 @@
     </div>
     
     <!-- 右側のサインアウトボタン -->
-    <button class="signOutBtn" @click="signOut">Sign Out</button>
+    <button class="signOutBtn" @click="signOut">サインアウト</button>
   </div>
 </template>
 

@@ -11,6 +11,7 @@ const dict = {
   ja: {
     'Sign In': 'サインイン',
     'Sign in': 'サインイン',
+    'Signing in': 'サインイン',
     'Sign Up': 'サインアップ',
     'Sign Out': 'サインアウト',
     'Email': 'メールアドレス',
