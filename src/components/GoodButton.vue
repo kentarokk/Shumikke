@@ -1,28 +1,32 @@
 <template>
   <div class="like-button">
-    <i class="fas fa-thumbs-up" @click="toggleLike" :class="{ liked: isLiked }">
-    </i>
-    <span>{{ likeCount }}</span>
+    <i class="fas fa-thumbs-up" @click="toggleLike" :class="{ liked: isLiked }"></i>
+    <span>{{ currentLikeCount }}</span>
   </div>
 </template>
 
 <script>
 export default {
   name: "GoodButton",
-  props: {},
+  props: {
+    likeCount: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
-      likeCount: 0,
       isLiked: false,
+      currentLikeCount: this.likeCount,
     };
   },
   methods: {
     toggleLike() {
       if (this.isLiked) {
-        this.likeCount -= 1;
+        this.currentLikeCount -= 1;
         alert("いいねした投稿リストから削除");
       } else {
-        this.likeCount += 1;
+        this.currentLikeCount += 1;
         alert("いいねした投稿リストに追加");
       }
       this.isLiked = !this.isLiked;
