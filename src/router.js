@@ -18,7 +18,10 @@ const routes = [
     path: "/",
     name: "SuggestPage",
     component: SuggestPage,
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuth: true,
+      pageTitle: "メインページ"
+    },
   },
   { path: "/login", name: "LoginPage", component: Login },
   {
@@ -45,7 +48,7 @@ const routes = [
   {
     path: "/addhobby",
     component: AddHobby,
-    meta: { pageTitle: "新しく趣味を登録する" },
+    meta: { pageTitle: "新しく趣味を登録" },
   },
   {
     path: "/goodpostview",
@@ -55,17 +58,17 @@ const routes = [
   {
     path: "/passwordchange",
     component: PasswordChange,
-    meta: { pageTitle: "パスワード変更画面" },
+    meta: { pageTitle: "パスワード変更" },
   },
   {
     path: "/emailchange",
     component: EmailChange,
-    meta: { pageTitle: "メールアドレス変更画面" },
+    meta: { pageTitle: "メールアドレス変更" },
   },
   {
     path: "/addmyhobby",
     component: AddMyHobby,
-    meta: { pageTitle: "新しいMY趣味を追加する" },
+    meta: { pageTitle: "新しくMY趣味を追加" },
   },
 ];
 
