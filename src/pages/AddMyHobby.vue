@@ -4,28 +4,26 @@
       <div class="selected-hobbies">
         <h3>選択された趣味タグ</h3>
         <div class="hobby-list">
-          <!-- 選択された趣味リスト -->
           <div
             v-for="hobby in selectedHobbies"
-            :key="hobby"
+            :key="hobby.hobbies_id"
             class="hobby-label selected"
-            @click="deselectHobby(hobby)"
+            @click="deselectHobby(hobby.hobbies_name)"
           >
-            {{ hobby }}
+            {{ hobby.hobbies_name }}
           </div>
         </div>
       </div>
       <div class="hobby-select-section">
         <h3>趣味タグを選んでください</h3>
         <div class="hobby-list">
-          <!-- 選択可能な趣味リスト -->
           <div
             v-for="hobby in availableHobbies"
-            :key="hobby"
+            :key="hobby.hobbies_id"
             class="hobby-label"
             @click="selectHobby(hobby)"
           >
-            {{ hobby }}
+            {{ hobby.hobbies_name }}
           </div>
         </div>
         <button class="submit-btn" @click="submitHobbies">完了</button>
@@ -35,48 +33,42 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      hobbies: [
-        "映画鑑賞",
-        "音楽",
-        "カフェ巡り",
-        "アウトドア",
-        "スポーツ",
-        "料理",
-        "読書",
-        "ゲーム",
-        "旅行",
-      ],
-      selectedHobbies: ["サッカー", "けん玉", "アニメ鑑賞"], // 初期に選択済みの趣味
-      availableHobbies: [], // 選択可能な趣味リスト
+      hobbies: [],
+      selectedHobbies: [],
+      availableHobbies: [],
     };
   },
   mounted() {
-    alert("My趣味リストを取得する&全趣味リストを取得する");
-  },
-  created() {
-    this.updateAvailableHobbies(); // 初期ロード時に選択可能な趣味リストを設定
+    axios
+      .get(
+        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=2"
+      )
+      .then(response => {
+        this.hobbies = response.data;
+        this.updateAvailableHobbies();
+      })
+      .catch(error => {
+        console.error("データの取得に失敗しました:", error);
+      });
   },
   methods: {
-    // 選択可能な趣味リストを更新
     updateAvailableHobbies() {
       this.availableHobbies = this.hobbies.filter(
-        (hobby) => !this.selectedHobbies.includes(hobby)
+        (hobby) => !this.selectedHobbies.some(selected => selected.hobbies_name === hobby.hobbies_name)
       );
     },
-    // 趣味を選択
     selectHobby(hobby) {
-      // 選択した趣味を selectedHobbies に追加し、availableHobbies から削除
       this.selectedHobbies.push(hobby);
       this.updateAvailableHobbies();
     },
-    // 趣味を解除
-    deselectHobby(hobby) {
-      // 解除した趣味を selectedHobbies から削除し、availableHobbies に戻す
+    deselectHobby(hobbyName) {
       this.selectedHobbies = this.selectedHobbies.filter(
-        (selected) => selected !== hobby
+        (selected) => selected.hobbies_name !== hobbyName
       );
       this.updateAvailableHobbies();
     },
