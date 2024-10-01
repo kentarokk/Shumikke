@@ -2,31 +2,44 @@
   <div class="allWrapper">
     <div class="app-container">
       <div class="profile-section">
-        <p>{{ userName }}</p>
+        <p>{{ userName }}さんのマイページ</p>
       </div>
 
       <div class="button-section">
-        <router-link to="/emailchange" tag="button" class="buttonStyle">メールアドレス変更</router-link>
-        <router-link to="/passwordchange" tag="button" class="buttonStyle">パスワード変更</router-link>
-        <router-link to="/goodpostview" tag="button" class="buttonStyle">いいねした投稿一覧</router-link>
-        <router-link to="/addhobby" tag="button" class="buttonStyle">新しい趣味を追加</router-link>
-        <router-link to="/addmyhobby" tag="button" class="buttonStyle">新しいMy趣味を追加</router-link>
+        <router-link to="/emailchange" tag="button" class="buttonStyle"
+          >メールアドレス変更</router-link
+        >
+        <router-link to="/passwordchange" tag="button" class="buttonStyle"
+          >パスワード変更</router-link
+        >
+        <router-link to="/goodpostview" tag="button" class="buttonStyle"
+          >いいねした投稿一覧</router-link
+        >
+        <router-link to="/addhobby" tag="button" class="buttonStyle"
+          >新しい趣味を追加</router-link
+        >
+        <router-link to="/addmyhobby" tag="button" class="buttonStyle"
+          >新しいMy趣味を追加</router-link
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { get_user_attributes } from "@/util";
+
 export default {
   data() {
     return {
       profileImageUrl: "https://via.placeholder.com/100",
-      userName: "ユーザー名",
+      userName: "",
     };
   },
   methods: {},
-  mounted() {
-    alert("プロフィール情報を取得する");
+  async mounted() {
+    const user_attributes = await get_user_attributes();
+    this.userName = user_attributes["nickname"];
   },
 };
 </script>
@@ -86,7 +99,7 @@ export default {
   color: rgb(255, 255, 255);
   border: none;
   cursor: pointer;
-  font-size: 1.0em;
+  font-size: 1em;
 }
 
 @media (max-width: 480px) {
