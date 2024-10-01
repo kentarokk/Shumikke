@@ -5,6 +5,8 @@ import Footer from "./components/Footer.vue";
 import { Authenticator } from "@aws-amplify/ui-vue";
 import "@aws-amplify/ui-vue/styles.css";
 import { I18n } from "aws-amplify/utils"; // AmplifyのI18n機能をインポート
+import { useRoute } from 'vue-router';
+import { ref, watchEffect } from 'vue';
 
 // 日本語の翻訳設定
 const dict = {
@@ -34,15 +36,22 @@ const dict = {
   }
 };
 
-
 I18n.putVocabularies(dict);
 I18n.setLanguage('ja');
+
+const route = useRoute();
+const pageTitle = ref(route.meta.pageTitle || 'Default Title');
+
+watchEffect(() => {
+  pageTitle.value = route.meta.pageTitle || 'Default Title';
+});
+
 </script>
 
 <template>
   <main>
-    <authenticator  :sign-up-attributes="['nickname',]" v-slot="{ signOut }" class="auth-wrapper">
-      <Header :signOut="signOut" />
+    <authenticator :sign-up-attributes="['nickname',]" v-slot="{ signOut }" class="auth-wrapper">
+      <Header :pageTitle="pageTitle" :signOut="signOut" />
       <div class="marginHeader"></div>
       <router-view />
       <div class="marginFooter"></div>

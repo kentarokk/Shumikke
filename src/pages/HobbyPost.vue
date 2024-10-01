@@ -12,13 +12,13 @@
       <main>
         <div class="main-content">
           <ul>
-            <li v-for="hobby in hobbies" :key="hobby.id" class="card">
-              <img :src="hobby.img" class="store-photo" />
+            <li v-for="(hobby, index) in hobbies" :key="index" class="card">
+              <img :src="hobby.post_photo" class="store-photo" alt="投稿写真" />
               <div class="discription">
-                <GoodButton />
-                <h2>{{ hobby.date }}</h2>
-                <p class="mainText">{{ hobby.mainText }}</p>
-                <router-link to="/shopinfomation">#{{ hobby.tag }}</router-link>
+                <GoodButton :likeCount="hobby.likes_number" />
+                <h2>{{ hobby.post_date }}</h2>
+                <p class="mainText">{{ hobby.impression }}</p>
+                <router-link to="/shopinfomation">#{{ hobby.hobbies_id }}</router-link>
               </div>
             </li>
           </ul>
@@ -32,6 +32,7 @@
 import AddButton from "../components/AddButton.vue";
 import BackButton from "../components/BackButton.vue";
 import GoodButton from "../components/GoodButton.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -40,43 +41,20 @@ export default {
     AddButton,
   },
   mounted() {
-    alert("趣味ごとの投稿リストを取得する＆趣味情報を取得する");
+    axios
+      .get(
+        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/business?hobbies_id=h00001"
+      )
+      .then(response => {
+        this.hobbies = response.data;
+      })
+      .catch(error => {
+        console.error("データの取得に失敗しました:", error);
+      });
   },
   data() {
     return {
-      hobby: {
-        img: "画像",
-        goodCount: "いいね数",
-        mainText: "説明",
-        date: "日付",
-        tag: "タグ",
-      },
-      hobbies: [
-        {
-          id: 1,
-          img: "image/soccer03.jpeg",
-          goodCount: "25",
-          mainText: "楽しかった！！また行きたい！！",
-          date: "2024-07-14",
-          tag: "豊洲公園",
-        },
-        {
-          id: 2,
-          img: "image/soccer02.jpg",
-          goodCount: "12",
-          mainText: "息子が楽しそうにしていてほっこりしました。",
-          date: "2024-08-21",
-          tag: "新宿広場",
-        },
-        {
-          id: 3,
-          img: "image/soccer01.jpg",
-          goodCount: "4",
-          mainText: "芝がしっかり整備されていて快適にプレイできました！",
-          date: "2024-04-03",
-          tag: "大井スタジアム",
-        },
-      ],
+      hobbies: [],
       title: "サッカー",
       hobbyDescriction: "球を蹴るスポーツです。世界中で人気があります。",
     };
