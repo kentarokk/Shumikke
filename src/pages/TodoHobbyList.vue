@@ -3,10 +3,10 @@
     <div class="Wrapper">
       <div class="main">
         <ul class="cardWrapper">
-          <li v-for="hobby in hobbies" :key="hobby.hobbies_id" class="card">
+          <li v-for="hobby in hobbies" :key="hobby.id" class="card">
             <router-link class="router" to="/hobbypost">
-              <img :src="getImageUrl(hobby.hobbies_photo)" />
-              <p>{{ hobby.hobbies_name }}</p>
+              <img :src="getImageUrl(hobby.image)" />
+              <p>{{ hobby.name }}</p>
             </router-link>
           </li>
         </ul>
@@ -22,12 +22,12 @@ export default {
   mounted() {
     axios
       .get(
-        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=1"
+        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
       )
       .then((response) => {
         this.hobbies = response.data.map(hobby => ({
           ...hobby,
-          hobbies_photo: this.getImageUrl(hobby.hobbies_photo.trim())
+          image: this.getImageUrl(hobby.image)
         }));
       })
       .catch((error) => {
