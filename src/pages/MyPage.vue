@@ -52,10 +52,12 @@ export default {
 
 .allWrapper {
   display: flex;
-  justify-content: center;
-  height: 557px;
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
   background: linear-gradient(135deg, #e7e7e7, #ffffff); 
 }
+
 
 .app-container {
   height: 450px;
