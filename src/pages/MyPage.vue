@@ -54,16 +54,18 @@ export default {
   display: flex;
   justify-content: center;
   height: 557px;
-  background: #e7e7e7;
+  background: linear-gradient(135deg, #e7e7e7, #ffffff); 
 }
 
 .app-container {
   height: 450px;
   max-width: 375px;
-  width: 100%; /* フル幅を取るように */
-  padding: 10px;
-  border-radius: 10px;
-  background: #e7e7e7;
+  width: 100%; 
+  padding: 20px;
+  border-radius: 15px; 
+  background: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease; 
 }
 
 .profile-section {
@@ -72,7 +74,10 @@ export default {
 }
 
 .profile-section p {
-  font-size: 1.4em;
+  font-size: 1.6em;
+  font-weight: bold;
+  color: #333; 
+  margin-bottom: 15px;
 }
 
 .profile-image {
@@ -88,18 +93,25 @@ export default {
   display: flex;
   flex-direction: column;
   text-align: center;
-  gap: 10px;
+  gap: 15px; 
 }
 
 .buttonStyle {
   width: 100%;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 12px;
+  border-radius: 20px; 
   background-color: #00c0a3;
-  color: rgb(255, 255, 255);
+  color: #fff;
   border: none;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 1.1em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  transition: background-color 0.3s, transform 0.3s ease; 
+}
+
+.buttonStyle:hover {
+  background-color: #00e6c3; 
+  transform: translateY(-3px); 
 }
 
 @media (max-width: 480px) {
@@ -107,7 +119,7 @@ export default {
     font-size: 1.8em;
   }
 
-  buttonStyle {
+  .buttonStyle {
     font-size: 1em;
   }
 
@@ -125,7 +137,7 @@ export default {
     font-size: 2.2em;
   }
 
-  buttonStyle {
+  .buttonStyle {
     font-size: 1.2em;
   }
 }
@@ -139,7 +151,7 @@ export default {
     font-size: 2.5em;
   }
 
-  buttonStyle {
+  .buttonStyle {
     font-size: 1.3em;
   }
 }
