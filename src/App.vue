@@ -10,6 +10,7 @@ import { ref, watchEffect } from 'vue';
 
 // 日本語の翻訳設定
 const dict = {
+  inheritAttrs: false,
   ja: {
     'Sign In': 'サインイン',
     'Sign in': 'サインイン',
@@ -49,15 +50,15 @@ watchEffect(() => {
 </script>
 
 <template>
-  <main>
-    <authenticator :sign-up-attributes="['nickname',]" v-slot="{ signOut }" class="auth-wrapper">
-      <Header :pageTitle="pageTitle" :signOut="signOut" />
-      <div class="marginHeader"></div>
-      <router-view />
-      <div class="marginFooter"></div>
-      <Footer />
-    </authenticator>
-  </main>
+  <div :class="$attrs.authWrapper">
+    <authenticator :sign-up-attributes="['nickname',]" v-slot="{ signOut }" >
+    <Header :pageTitle="pageTitle" :signOut="signOut" />
+    <div class="marginHeader"></div>
+    <router-view />
+    <div class="marginFooter"></div>
+    <Footer />
+  </authenticator>
+  </div>
 </template>
 
 <style>
@@ -67,7 +68,7 @@ watchEffect(() => {
   --amplify-primary-shade: #00c0a3 !important;
 }
 
-.auth-wrapper {
+.authWrapper {
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
