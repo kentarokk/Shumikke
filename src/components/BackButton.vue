@@ -42,8 +42,8 @@ export default {
 }
 
 .arrow-icon {
-  padding-top: 7px;
-  font-size: 24px;
+  font-size: 35px;
+  padding: 0 0 5px;
   color: black;
 }
 </style>
