@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      profileImageUrl: "image/AdobeStock_505447855_Preview.jpeg",
+      profileImageUrl: "image/shumikke.png",
     };
   },
   name: "MainHeader",
@@ -57,9 +57,9 @@ export default {
 }
 
 .logo {
-  width: 40px;
-  padding: 10px;
+  width: 45px;
   border-radius: 50%;
+  border-color: white;
 }
 
 .pageTitle {
