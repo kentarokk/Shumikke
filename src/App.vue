@@ -11,6 +11,8 @@ const dict = {
   ja: {
     'Sign In': 'サインイン',
     'Sign in': 'サインイン',
+    'Nickname': 'ニックネーム',
+    'Enter your Nickname': 'ニックネームを入力してください',
     'Signing in': 'サインイン',
     'Sign Up': 'サインアップ',
     'Sign Out': 'サインアウト',
@@ -39,7 +41,7 @@ I18n.setLanguage('ja');
 
 <template>
   <main>
-    <authenticator v-slot="{ signOut }" class="auth-wrapper">
+    <authenticator  :sign-up-attributes="['nickname',]" v-slot="{ signOut }" class="auth-wrapper">
       <Header :signOut="signOut" />
       <div class="marginHeader"></div>
       <router-view />
