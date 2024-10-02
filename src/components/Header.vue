@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <!-- 左側のプロフィール画像 -->
-    <img :src="profileImageUrl" class="logo" />
+    <router-link to="/"><img :src="profileImageUrl" class="logo" /></router-link>
     
     <!-- 中央のページタイトル -->
     <div class="pageTitle">
@@ -57,6 +57,7 @@ export default {
 }
 
 .logo {
+  margin-top: 10px;
   width: 45px;
   border-radius: 50%;
   border-color: white;
