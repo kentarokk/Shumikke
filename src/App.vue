@@ -68,13 +68,33 @@ watchEffect(() => {
   --amplify-primary-shade: #00c0a3 !important;
 }
 
-.authWrapper {
+[data-amplify-authenticator] {
+  display: flex !important;
+  justify-content: center !important; /* 水平方向に中央揃え */
+  align-items: center !important; /* 垂直方向に中央揃え */
+  flex-direction: column !important; /* 要素を縦に並べる */
+  min-height: 100vh !important; /* 画面全体の高さにする */
+}
+
+
+/* 認証UI全体の幅を制限して中央に */
+[data-amplify-authenticator] .amplify-container {
+  max-width: 400px !important;
+  width: 100% !important;
+  margin: 0 auto !important; /* 水平中央揃え */
+}
+
+
+/* 他の要素も必要に応じて中央に */
+[data-amplify-authenticator] .amplify-form-section {
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
   align-items: center !important;
-  height: 100vh !important;
 }
+
+
+
 
 .amplify-button {
   background-color: #00c0a3 !important;
