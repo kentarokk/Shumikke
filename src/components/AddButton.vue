@@ -18,13 +18,12 @@ export default {
   methods: {
     toggleAdd() {
       if (this.isAdded) {
-        this.AddCount -= 1;
-        alert("やりたい趣味リストから削除");
+        alert("すでに追加されています");
       } else {
         this.AddCount += 1;
         alert("やりたい趣味リストに追加");
+        this.isAdded = !this.isAdded;
       }
-      this.isAdded = !this.isAdded;
     },
   },
 };
