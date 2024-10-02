@@ -8,10 +8,6 @@
       <p>{{ pageTitle }}</p>
     </div>
     
-    <!-- 右側のサインアウトボタン -->
-    <button class="signOutBtn" @click="signOut">
-    <i class="fas fa-sign-out-alt"></i>
-  </button>
   </div>
 </template>
 
