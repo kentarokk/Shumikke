@@ -44,7 +44,7 @@ export default {
   font-size: 25px;
   font-weight: 50;
   position: fixed;
-  z-index: 1;
+  z-index: 10;
   display: flex;
   justify-content: space-between; /* スペースを均等に分ける */
   align-items: center;
