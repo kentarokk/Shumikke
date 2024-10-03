@@ -6,23 +6,22 @@
       </div>
 
 
-      <div class="button-section">
+          <div class="button-section">
         <router-link to="/emailchange" tag="button" class="buttonStyle">
-          メールアドレス変更
+          <i class="fas fa-envelope"></i> メールアドレス変更
         </router-link>
         <router-link to="/passwordchange" tag="button" class="buttonStyle">
-          パスワード変更
+          <i class="fas fa-key"></i> パスワード変更
         </router-link>
         <router-link to="/goodpostview" tag="button" class="buttonStyle">
-          いいねした投稿一覧
+          <i class="fas fa-thumbs-up"></i> いいねした投稿一覧
         </router-link>
         <router-link to="/addhobby" tag="button" class="buttonStyle">
-          新しい趣味を追加
+          <i class="fas fa-plus"></i> 新しい趣味を追加
         </router-link>
         <router-link to="/addmyhobby" tag="button" class="buttonStyle">
-          新しいMy趣味を追加
+          <i class="fas fa-heart"></i> 新しいMy趣味を追加
         </router-link>
-
 
         <!-- サインアウトボタン -->
         <button class="buttonStyle" @click="signOut">
