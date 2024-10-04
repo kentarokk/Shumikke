@@ -49,7 +49,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div :class="$attrs.authWrapper">
+  <div class="authWrapper">
     <authenticator :sign-up-attributes="['nickname']" v-slot="{ signOut }">
       <Header :pageTitle="pageTitle" />
       <div class="marginHeader"></div>
