@@ -6,11 +6,11 @@
         <div class="hobby-list">
           <div
             v-for="hobby in selectedHobbies"
-            :key="hobby.hobbies_id"
+            :key="hobby.id"
             class="hobby-label selected"
-            @click="deselectHobby(hobby.hobbies_name)"
+            @click="deselectHobby(hobby.name)"
           >
-            {{ hobby.hobbies_name }}
+            {{ hobby.name }}
           </div>
         </div>
       </div>
@@ -19,11 +19,11 @@
         <div class="hobby-list">
           <div
             v-for="hobby in availableHobbies"
-            :key="hobby.hobbies_id"
+            :key="hobby.id"
             class="hobby-label"
             @click="selectHobby(hobby)"
           >
-            {{ hobby.hobbies_name }}
+            {{ hobby.name }}
           </div>
         </div>
         <button class="submit-btn" @click="submitHobbies">完了</button>
@@ -46,7 +46,7 @@ export default {
   mounted() {
     axios
       .get(
-        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=2"
+        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
       )
       .then(response => {
         this.hobbies = response.data;
@@ -74,6 +74,17 @@ export default {
     },
     submitHobbies() {
       alert("MY趣味リストを更新");
+      axios
+        .post(
+          "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b&hobby_id=8"
+        )
+        .then(response => {
+          this.hobbies = response.data;
+          this.updateAvailableHobbies();
+        })
+        .catch(error => {
+          console.error("データの取得に失敗しました:", error);
+        });
     },
   },
 };

@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -54,7 +56,16 @@ export default {
     };
   },
   mounted() {
-    alert("全趣味リストを取得する");
+    axios
+      .get(
+        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/allhobby"
+      )
+      .then(response => {
+        this.hobbies = response.data;
+      })
+      .catch(error => {
+        console.error("データの取得に失敗しました:", error);
+      });
   },
   computed: {
     filteredHobbies() {
