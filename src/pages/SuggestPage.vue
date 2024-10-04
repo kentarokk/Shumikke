@@ -4,7 +4,7 @@
       <ul class="cardWrapper">
         <li v-for="hobby in hobbies" :key="hobby.id" class="card">
           <AddButton class="addButton" @click="addHobby(hobby.id)"></AddButton>
-          <img :src="hobby.image" alt="hobby image" />
+          <img :src="getImageUrl(hobby.image)" alt="hobby image" />
           <div class="account">
             <div class="hobbyNameWrapper">
               <router-link to="/hobbypost" class="postView">投稿を見る</router-link>
@@ -12,7 +12,6 @@
             </div>
             <div class="mainText">
               <p>{{ hobby.introduction }}</p>
-              <p>{{ hobby.contents }}</p>
             </div>
           </div>
         </li>
@@ -33,16 +32,33 @@ export default {
     return {
       hobbies: [],
       userId: "27241a58-8041-70f7-fb7f-0ffac79afb6b",
-      hobbyId: "",
     };
   },
   mounted() {
     axios
-      .get("https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b")
+      .get(
+        `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`
+      )
       .then((response) => {
-        this.hobbies = response.data;
+        this.hobbies = response.data.map(hobby => ({
+          id: hobby.id,
+          name: hobby.name,
+          image: this.getImageUrl(hobby.image),
+          introduction: hobby.introduction,
+        }));
       })
+      .catch((error) => {
+        console.error("Error fetching hobbies:", error);
+      });
   },
+  methods: {
+    getImageUrl(s3Url) {
+      if (s3Url && s3Url.startsWith("s3://")) {
+        return s3Url.replace("s3://smk-data-bucket", "https://smk-data-bucket.s3.ap-northeast-1.amazonaws.com");
+      }
+      return s3Url || "https://via.placeholder.com/100";
+    },
+  }
 };
 </script>
 
