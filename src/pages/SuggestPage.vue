@@ -3,17 +3,16 @@
     <div class="main">
       <ul class="cardWrapper">
         <li v-for="hobby in hobbies" :key="hobby.id" class="card">
-          <AddButton class="addButton"></AddButton>
-          <img :src="hobby.img" />
+          <AddButton class="addButton" @click="addHobby(hobby.id)"></AddButton>
+          <img :src="hobby.image" alt="hobby image" />
           <div class="account">
             <div class="hobbyNameWrapper">
-              <router-link to="/hobbypost" class="postView"
-                >投稿を見る</router-link
-              >
-              <h1 class="hobbyName">{{ hobby.title }}</h1>
+              <router-link to="/hobbypost" class="postView">投稿を見る</router-link>
+              <h1 class="hobbyName">{{ hobby.name }}</h1>
             </div>
             <div class="mainText">
-              <p>{{ hobby.discription }}</p>
+              <p>{{ hobby.introduction }}</p>
+              <p>{{ hobby.contents }}</p>
             </div>
           </div>
         </li>
@@ -30,37 +29,19 @@ export default {
   components: {
     AddButton,
   },
-  mounted() {
-    // alert("サジェストする趣味を取得する");
-  },
   data() {
     return {
-      hobby: {
-        img: "画像",
-        title: "タイトル",
-        discription: "説明",
-      },
-      hobbies: [
-        {
-          id: 1,
-          img: "image/soccer01.jpg",
-          title: "サッカー",
-          discription: "球を蹴るスポーツです。",
-        },
-        {
-          id: 2,
-          img: "image/kendama.jpg",
-          title: "けん玉",
-          discription: "日本の伝統的な遊びです。",
-        },
-        {
-          id: 3,
-          img: "image/anime.jpg",
-          title: "アニメ鑑賞",
-          discription: "アニメを見ます。",
-        },
-      ],
+      hobbies: [],
+      userId: "27241a58-8041-70f7-fb7f-0ffac79afb6b",
+      hobbyId: "",
     };
+  },
+  mounted() {
+    axios
+      .get("https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b")
+      .then((response) => {
+        this.hobbies = response.data;
+      })
   },
 };
 </script>
