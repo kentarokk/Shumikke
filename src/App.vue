@@ -50,7 +50,11 @@ watchEffect(() => {
 
 <template>
   <div :class="$attrs.authWrapper">
-    <authenticator :sign-up-attributes="['nickname']" v-slot="{ signOut }" class="authWrapper">
+    <authenticator
+      :sign-up-attributes="['nickname']"
+      v-slot="{ signOut }"
+      class="authWrapper"
+    >
       <Header :pageTitle="pageTitle" />
       <div class="marginHeader"></div>
       <router-view :signOut="signOut" />

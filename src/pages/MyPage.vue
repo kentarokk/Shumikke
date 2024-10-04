@@ -5,8 +5,7 @@
         <p>{{ userName }}さんのマイページ</p>
       </div>
 
-
-          <div class="button-section">
+      <div class="button-section">
         <router-link to="/emailchange" tag="button" class="buttonStyle">
           <i class="fas fa-envelope"></i> メールアドレス変更
         </router-link>
@@ -24,7 +23,7 @@
         </router-link>
 
         <!-- サインアウトボタン -->
-        <button class="buttonStyle" @click="signOut">
+        <button class="buttonStyle" @click="handleSignOut">
           <i class="fas fa-sign-out-alt"></i> サインアウト
         </button>
       </div>
@@ -32,10 +31,8 @@
   </div>
 </template>
 
-
 <script>
 import { get_user_attributes } from "@/util";
-
 
 export default {
   props: {
@@ -53,16 +50,26 @@ export default {
     const user_attributes = await get_user_attributes();
     this.userName = user_attributes["nickname"];
   },
+  methods: {
+    handleSignOut() {
+      this.signOut();
+
+      // セッションとCookieの削除
+      sessionStorage.clear();
+      document.cookie = "foobar=; max-age=0";
+
+      // ブラウザのURL強制書き換え
+      this.$router.replace("/");
+    },
+  },
 };
 </script>
-
 
 <style scoped>
 * {
   margin: 0;
   padding: 0;
 }
-
 
 .allWrapper {
   display: flex;
@@ -71,7 +78,6 @@ export default {
   height: 100vh;
   background: linear-gradient(135deg, #e7e7e7, #ffffff);
 }
-
 
 .app-container {
   max-width: 375px;
@@ -84,12 +90,10 @@ export default {
   overflow: hidden; /* はみ出しを防ぐ */
 }
 
-
 .profile-section {
   text-align: center;
   margin-bottom: 20px;
 }
-
 
 .profile-section p {
   font-size: 1.6em;
@@ -98,14 +102,12 @@ export default {
   margin-bottom: 15px;
 }
 
-
 .button-section {
   display: flex;
   flex-direction: column;
   text-align: center;
   gap: 15px;
 }
-
 
 .buttonStyle {
   width: 100%;
@@ -120,13 +122,8 @@ export default {
   transition: background-color 0.3s, transform 0.3s ease;
 }
 
-
 .buttonStyle:hover {
   background-color: #00e6c3;
   transform: translateY(-3px);
 }
 </style>
-
-
-
-
