@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <!-- モーダルの表示 -->
+    <Modal v-if="showModal" @close="closeModal" @confirm="navigateToAddMyHobby" @cancel="goBack" class="modalStyle" />
     <div class="main">
       <ul class="cardWrapper">
         <li v-for="hobby in hobbies" :key="hobby.id" class="card">
@@ -23,42 +25,68 @@
 <script>
 import axios from "axios";
 import AddButton from "../components/AddButton.vue";
+import Modal from "../components/Modal.vue";
+import { get_user_id } from "../util.js";
 
 export default {
   components: {
     AddButton,
+    Modal,
   },
   data() {
     return {
       hobbies: [],
-      userId: "27241a58-8041-70f7-fb7f-0ffac79afb6b",
+      myHobbies: [],
+      userId: "",
+      showModal: false,
     };
   },
-  mounted() {
-    axios
-      .get(
+  async mounted() {
+    try {
+      this.userId = await get_user_id();
+      
+      const hobbyResponse = await axios.get(
         `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`
-      )
-      .then((response) => {
-        this.hobbies = response.data.map(hobby => ({
-          id: hobby.id,
-          name: hobby.name,
-          image: this.getImageUrl(hobby.image),
-          introduction: hobby.introduction,
-        }));
-      })
-      .catch((error) => {
-        console.error("Error fetching hobbies:", error);
-      });
+      );
+      this.hobbies = hobbyResponse.data.map(hobby => ({
+        id: hobby.id,
+        name: hobby.name,
+        image: this.getImageUrl(hobby.image),
+        introduction: hobby.introduction,
+      }));
+
+      const myHobbyResponse = await axios.get(
+        `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`
+      );
+      this.myHobbies = myHobbyResponse.data;
+
+      if (this.myHobbies.length === 0) {
+        this.showModal = true;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   },
   methods: {
     getImageUrl(s3Url) {
       if (s3Url && s3Url.startsWith("s3://")) {
-        return s3Url.replace("s3://smk-data-bucket", "https://smk-data-bucket.s3.ap-northeast-1.amazonaws.com");
+        return s3Url.replace(
+          "s3://smk-data-bucket",
+          "https://smk-data-bucket.s3.ap-northeast-1.amazonaws.com"
+        );
       }
       return s3Url || "https://via.placeholder.com/100";
     },
-  }
+    closeModal() {
+      this.showModal = false;
+    },
+    navigateToAddMyHobby() {
+      this.$router.push("/addmyhobby");
+    },
+    goBack() {
+      this.$router.go(-1);
+    },
+  },
 };
 </script>
 
@@ -165,4 +193,9 @@ li {
   z-index: 0.9;
   border-radius: 5px;
 }
+
+.modalStyle{
+  padding: 20px;
+}
+
 </style>
