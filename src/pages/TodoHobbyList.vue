@@ -41,10 +41,10 @@ export default {
   },
   methods: {
     getImageUrl(s3Url) {
-      if (s3Url.startsWith("s3://")) {
+      if (s3Url && s3Url.startsWith("s3://")) {
         return s3Url.replace("s3://smk-data-bucket", "https://smk-data-bucket.s3.ap-northeast-1.amazonaws.com");
       }
-      return s3Url;
+      return s3Url || 'https://via.placeholder.com/100';
     }
   }
 };
