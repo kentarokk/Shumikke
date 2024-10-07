@@ -20,27 +20,38 @@
 
 <script>
 import axios from "axios";
+import { get_user_id } from "@/util";
 
 export default {
-  mounted() {
-    axios
-      .get(
-        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
-      )
-      .then((response) => {
-        this.hobbies = response.data.map(hobby => ({
-          ...hobby,
-          image: this.getImageUrl(hobby.image)
-        }));
-      })
-      .catch((error) => {
-        console.error("Error fetching hobbies:", error);
-      });
-  },
+
   data() {
     return {
       hobbies: [],
+      userId: null,
     };
+  },
+
+  async mounted() {
+
+    this.userId = await get_user_id();
+
+    if (this.userId) {
+      try {
+        const response = await axios.get(
+          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`
+        );
+
+        this.hobbies = response.data.map(hobby => ({
+          id: hobby.id,
+          name: hobby.name,
+          image: this.getImageUrl(hobby.image),
+        }));
+      } catch (error) {
+        console.error("Error fetching hobbies:", error);
+      }
+    } else {
+      console.error("ユーザーIDの取得に失敗しました");
+    }
   },
   methods: {
     getImageUrl(s3Url) {
@@ -50,11 +61,13 @@ export default {
       return s3Url || 'https://via.placeholder.com/100';
     },
     removeHobby(index) {
-      this.hobbies.splice(index, 1);
-      axios
-        .delete(
-          "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b&hobby_id=1"
-        )
+    const hobbyToRemove = this.hobbies[index];
+    const hobbyId = hobbyToRemove.id;
+    this.hobbies.splice(index, 1);
+    axios
+      .delete(
+        `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=${this.userId}&hobby_id=${hobbyId}`
+      )
     }
   }
 };
