@@ -36,7 +36,8 @@ export default {
     };
   },
   async mounted() {
-    this.userId = await this.getUserId(); // ユーザーIDを取得
+    // ユーザーIDを取得
+    this.userId = await get_user_id();
 
     if (this.userId) {
       try {
@@ -70,19 +71,10 @@ export default {
       }
       return s3Url || "https://via.placeholder.com/100";
     },
-    async getUserId() {
-      // ユーザーIDを取得する
-      try {
-        const userId = await get_user_id();
-        return userId;
-      } catch (error) {
-        console.error("ユーザーIDの取得に失敗しました:", error);
-        return null;
-      }
-    },
   }
 };
 </script>
+
 
 
 <style scoped>
