@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <Modal v-if="showModal" @close="closeModal" @confirm="navigateToAddMyHobby" @cancel="goBack" class="modalStyle" />
     <div class="main">
       <ul class="cardWrapper">
         <li v-for="hobby in hobbies" :key="hobby.id" class="card">
@@ -25,18 +24,15 @@
 import axios from "axios";
 import AddButton from "../components/AddButton.vue";
 import { get_user_id } from "@/util"; // util.jsのパスを指定
-import Modal from "../components/Modal.vue";
 
 export default {
   components: {
     AddButton,
-    Modal,
   },
   data() {
     return {
       hobbies: [],
       userId: null, // 初期値をnullに設定
-      showModal: false,
     };
   },
   async mounted() {
@@ -58,7 +54,7 @@ export default {
 
         // 趣味が0の場合、AddMyHobbyに遷移
         if (this.hobbies.length === 0) {
-          this.showModal = true;
+          this.$router.push({ name: 'AddMyHobby' });
         }
       } catch (error) {
         console.error("Error fetching hobbies:", error);
@@ -75,16 +71,7 @@ export default {
       }
       return s3Url || "https://via.placeholder.com/100";
     },
-    closeModal() {
-      this.showModal = false;
-    },
-    navigateToAddMyHobby() {
-      this.$router.push({ name: 'AddMyHobby' });
-    },
-    goBack() {
-      this.$router.go(-1);
-    },
-  },
+  }
 };
 </script>
 
@@ -193,9 +180,4 @@ li {
   z-index: 0.9;
   border-radius: 5px;
 }
-
-.modalStyle{
-  padding: 20px;
-}
-
 </style>
