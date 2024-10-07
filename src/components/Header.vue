@@ -18,10 +18,6 @@ export default {
       type: String,
       required: true,
     },
-    signOut: {
-      type: Function,
-      required: true,  // App.vue から渡される signOut 関数が必須
-    },
   },
   data() {
     return {
