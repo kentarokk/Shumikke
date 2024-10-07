@@ -67,6 +67,7 @@ const routes = [
   },
   {
     path: "/addmyhobby",
+    name: "AddMyHobby",
     component: AddMyHobby,
     meta: { pageTitle: "新しくMY趣味を追加" },
   },
