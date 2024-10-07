@@ -23,6 +23,7 @@
 <script>
 import axios from "axios";
 import AddButton from "../components/AddButton.vue";
+import { get_user_id } from "@/util"; // util.jsのパスを指定
 
 export default {
   components: {
@@ -31,25 +32,36 @@ export default {
   data() {
     return {
       hobbies: [],
-      userId: "27241a58-8041-70f7-fb7f-0ffac79afb6b",
+      userId: null, // 初期値をnullに設定
     };
   },
-  mounted() {
-    axios
-      .get(
-        `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`
-      )
-      .then((response) => {
+  async mounted() {
+    this.userId = await this.getUserId(); // ユーザーIDを取得
+
+    if (this.userId) {
+      try {
+        const response = await axios.get(
+          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`
+        );
+
         this.hobbies = response.data.map(hobby => ({
           id: hobby.id,
           name: hobby.name,
           image: this.getImageUrl(hobby.image),
           introduction: hobby.introduction,
         }));
-      })
-      .catch((error) => {
+
+        // 趣味が0の場合、AddMyHobbyに遷移
+        if (this.hobbies.length === 0) {
+          this.$router.push({ name: 'AddMyHobby' });
+        }
+      } catch (error) {
         console.error("Error fetching hobbies:", error);
-      });
+      }
+    } else {
+      console.error("ユーザーIDの取得に失敗しました");
+      // ユーザーIDが取得できない場合の処理
+    }
   },
   methods: {
     getImageUrl(s3Url) {
@@ -58,9 +70,20 @@ export default {
       }
       return s3Url || "https://via.placeholder.com/100";
     },
+    async getUserId() {
+      // ユーザーIDを取得する
+      try {
+        const userId = await get_user_id();
+        return userId;
+      } catch (error) {
+        console.error("ユーザーIDの取得に失敗しました:", error);
+        return null;
+      }
+    },
   }
 };
 </script>
+
 
 <style scoped>
 * {
