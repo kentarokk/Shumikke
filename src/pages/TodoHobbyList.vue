@@ -59,7 +59,7 @@ export default {
     removeHobby(index) {
       this.hobbies.splice(index, 1);
       axios.delete(
-        `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b&hobby_id=${index}`
+        `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b&hobby_id=${this.hobbies[index].id}`
       );
     },
   },
