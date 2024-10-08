@@ -171,7 +171,9 @@ export default {
 }
 
 .submit-btn {
-  margin: 20px 0 0 0;
+  position:fixed;
+  bottom: 80px;
+  z-index: 2;
   width: 20%;
   padding: 10px;
   border-radius: 10px;
@@ -180,5 +182,6 @@ export default {
   border: none;
   cursor: pointer;
   font-size: 1.2em;
+  right: 30px;
 }
 </style>

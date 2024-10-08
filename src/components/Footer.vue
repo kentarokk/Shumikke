@@ -36,6 +36,5 @@ export default {
 
 .current {
     color: rgb(179, 24, 65);
-    font-size: 30px;
 }
 </style>
