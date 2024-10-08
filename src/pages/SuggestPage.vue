@@ -67,7 +67,7 @@ export default {
           id: hobby.id,
           name: hobby.name,
           image: this.getImageUrl(hobby.image),
-          introduction: hobby.introduction,
+          introduction: hobby.description,
         }));
       } catch (error) {
         console.error("Error fetching hobbies:", error);
