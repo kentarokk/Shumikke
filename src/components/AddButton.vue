@@ -1,56 +1,55 @@
 <template>
   <div class="Add-button">
-    <i class="fa-solid fa-plus" @click="toggleAdd" :class="{ Added: isAdded }">
-    </i>
+    <i class="fa-solid fa-plus" @click="handleClick" :class="{ Added: isAdded }"></i>
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
-import { get_user_id } from "@/util"; // ユーザーIDを取得するための関数
+import { get_user_id } from "@/util";
 
 export default {
   name: "AddButton",
   props: {
+    userId: {
+      type: String,
+      required: true,
+    },
     hobbyId: {
-      type: String, // 趣味IDの型を指定（文字列）
-      required: true // 必須のprops
-    }
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
+      AddCount: 0,
       isAdded: false,
     };
   },
   methods: {
-    async toggleAdd() {
+    handleClick() {
       if (this.isAdded) {
         alert("すでに追加されています");
-        return;
+      } else {
+        this.addHobby(this.hobbyId);
       }
-
-      try {
-        const userId = await get_user_id(); // ユーザーIDを取得
-
-        // APIにリクエストを送信
-        const response = await axios.post(
-          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=${userId}&hobby_id=${this.hobbyId}`
+    },
+    async addHobby(hobbyId) {
+      
+      const userId = await get_user_id();
+      const response = await axios.post(
+          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=${userId}&hobby_id=${hobbyId}`
         );
 
-        if (response.status === 200) {
-          alert("やりたい趣味リストに追加されました");
-          this.isAdded = true; // 登録成功後にフラグを更新
-        } else {
-          alert("登録に失敗しました");
-        }
-      } catch (error) {
-        console.error("Error adding hobby:", error);
-        alert("エラーが発生しました");
-      }
+        
+       
     },
   },
 };
 </script>
+
+
 
 
 

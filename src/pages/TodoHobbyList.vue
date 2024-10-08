@@ -22,28 +22,53 @@
 
 <script>
 import axios from "axios";
+import { get_user_id } from "@/util";
 
 export default {
-  mounted() {
-    console.log("mounted");
+  async mounted() {
+    // ユーザーIDを取得
+    this.userId = await get_user_id();
 
-    axios
-      .get(
-        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
-      )
-      .then((response) => {
+    if (this.userId) {
+      try {
+        const response = await axios.get(
+          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=${this.userId}`
+        );
+
         this.hobbies = response.data.map((hobby) => ({
           ...hobby,
           image: this.getImageUrl(hobby.image),
         }));
-      })
-      .catch((error) => {
+
+      } catch (error) {
         console.error("Error fetching hobbies:", error);
-      });
+      }
+    } else {
+      console.error("ユーザーIDの取得に失敗しました");
+      // ユーザーIDが取得できない場合の処理
+    }
   },
+  // mounted() {
+  //   console.log("mounted");
+
+  //   axios
+  //     .get(
+  //       "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
+  //     )
+  //     .then((response) => {
+  //       this.hobbies = response.data.map((hobby) => ({
+  //         ...hobby,
+  //         image: this.getImageUrl(hobby.image),
+  //       }));
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching hobbies:", error);
+  //     });
+  // },
   data() {
     return {
       hobbies: [],
+      userId: null,
     };
   },
   methods: {
