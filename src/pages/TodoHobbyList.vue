@@ -5,7 +5,9 @@
         <ul class="cardWrapper">
           <li v-for="(hobby, index) in hobbies" :key="hobby.id" class="card">
             <div class="card-content">
-              <button class="delete-btn" @click="removeHobby(index)">&#8211;</button>
+              <button class="delete-btn" @click="removeHobby(index)">
+                &#8211;
+              </button>
               <router-link class="router" to="/hobbypost">
                 <img :src="getImageUrl(hobby.image)" />
                 <p>{{ hobby.name }}</p>
@@ -23,14 +25,16 @@ import axios from "axios";
 
 export default {
   mounted() {
+    console.log("mounted");
+
     axios
       .get(
-        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
+        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
       )
       .then((response) => {
-        this.hobbies = response.data.map(hobby => ({
+        this.hobbies = response.data.map((hobby) => ({
           ...hobby,
-          image: this.getImageUrl(hobby.image)
+          image: this.getImageUrl(hobby.image),
         }));
       })
       .catch((error) => {
@@ -45,18 +49,20 @@ export default {
   methods: {
     getImageUrl(s3Url) {
       if (s3Url && s3Url.startsWith("s3://")) {
-        return s3Url.replace("s3://smk-data-bucket", "https://smk-data-bucket.s3.ap-northeast-1.amazonaws.com");
+        return s3Url.replace(
+          "s3://smk-data-bucket",
+          "https://smk-data-bucket.s3.ap-northeast-1.amazonaws.com"
+        );
       }
-      return s3Url || 'https://via.placeholder.com/100';
+      return s3Url || "https://via.placeholder.com/100";
     },
     removeHobby(index) {
       this.hobbies.splice(index, 1);
-      axios
-        .delete(
-          "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b&hobby_id=1"
-        )
-    }
-  }
+      axios.delete(
+        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b&hobby_id=1"
+      );
+    },
+  },
 };
 </script>
 
