@@ -11,7 +11,7 @@
               <h1 class="hobbyName">{{ hobby.name }}</h1>
             </div>
             <div class="mainText">
-              <p>{{ hobby.introduction }}</p>
+              <p>{{ hobby.contents }}</p>
             </div>
           </div>
         </li>
@@ -41,23 +41,26 @@ export default {
 
     if (this.userId) {
       try {
-        const response = await axios.get(
+        const hobbyResponse = await axios.get(
           `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`
         );
 
-        this.hobbies = response.data.map(hobby => ({
+        if (hobbyResponse.data.length === 0) {
+          this.$router.push({ name: 'AddMyHobby' });
+        }
+
+        const suggestResponse = await axios.get(
+          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/suggest?user_id=${this.userId}`
+        );
+
+        this.hobbies = suggestResponse.data.map(hobby => ({
           id: hobby.id,
           name: hobby.name,
           image: this.getImageUrl(hobby.image),
-          introduction: hobby.introduction,
+          contents: hobby.contents,
         }));
-
-        // 趣味が0の場合、AddMyHobbyに遷移
-        if (this.hobbies.length === 0) {
-          this.$router.push({ name: 'AddMyHobby' });
-        }
       } catch (error) {
-        console.error("Error fetching hobbies:", error);
+        console.error("Error fetching hobbies or suggestions:", error);
       }
     } else {
       console.error("ユーザーIDの取得に失敗しました");
