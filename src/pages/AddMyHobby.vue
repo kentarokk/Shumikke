@@ -8,7 +8,7 @@
             v-for="hobby in selectedHobbies"
             :key="hobby.id"
             class="hobby-label selected"
-            @click="deselectHobby(hobby.name)"
+            @click="deselectHobby(hobby.id)"
           >
             {{ hobby.name }}
           </div>
@@ -34,66 +34,70 @@
 
 <script>
 import axios from 'axios';
-import { get_user_id } from "@/util"; // ユーザーID取得の関数をインポート
+import { get_user_id } from "@/util";
 
 export default {
   data() {
     return {
-      hobbies: [],
       selectedHobbies: [],
       availableHobbies: [],
+      userId: null,
     };
   },
-  mounted() {
-    axios
-      .get(
-        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
-      )
-      .then(response => {
-        this.hobbies = response.data;
-        this.updateAvailableHobbies();
-      })
-      .catch(error => {
-        console.error("データの取得に失敗しました:", error);
-      });
+  async mounted() {
+    this.userId = await get_user_id();
+
+    if (this.userId) {
+      try {
+        const selectedResponse = await axios.get(
+          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`
+        );
+        this.selectedHobbies = selectedResponse.data;
+
+        const allResponse = await axios.get(
+          "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/allhobby"
+        );
+        const allHobbies = allResponse.data;
+
+        this.availableHobbies = allHobbies.filter(
+          hobby => !this.selectedHobbies.some(selected => selected.id === hobby.id)
+        );
+      } catch (error) {
+        console.error("趣味のデータ取得に失敗しました:", error);
+      }
+    }
   },
   methods: {
-    updateAvailableHobbies() {
-      this.availableHobbies = this.hobbies.filter(
-        (hobby) => !this.selectedHobbies.some(selected => selected.hobbies_name === hobby.hobbies_name)
-      );
-    },
     selectHobby(hobby) {
       this.selectedHobbies.push(hobby);
-      this.updateAvailableHobbies();
-    },
-    deselectHobby(hobbyName) {
-      this.selectedHobbies = this.selectedHobbies.filter(
-        (selected) => selected.hobbies_name !== hobbyName
+      this.availableHobbies = this.availableHobbies.filter(
+        available => available.id !== hobby.id
       );
-      this.updateAvailableHobbies();
     },
-    async submitHobbies() {
-      if (this.selectedHobbies.length === 0) {
-        alert("少なくとも1つ趣味を選んでください。");
-        return;
+    deselectHobby(hobbyId) {
+      const deselectedHobby = this.selectedHobbies.find(hobby => hobby.id === hobbyId);
+
+      if (deselectedHobby) {
+        this.selectedHobbies = this.selectedHobbies.filter(hobby => hobby.id !== hobbyId);
+        
+        this.availableHobbies.push(deselectedHobby);
       }
+    },
+    submitHobbies() {
+      alert("MY趣味リストを更新します");
+      const hobbyIds = this.selectedHobbies.map(hobby => hobby.id);
 
-      try {
-        const userId = await get_user_id(); // ユーザーIDを取得
-        const hobbyIds = this.selectedHobbies.map(hobby => hobby.id); // 選択した趣味のIDを取得
-
-        // APIリクエストで趣味をRDSに保存
-        await axios.post(
-          "https://your-api-endpoint/hobby/save", // 実際のAPIエンドポイントに置き換えて
-          { userId, hobbyIds } // ユーザーIDと趣味IDを送信
-        );
-
-        alert("趣味リストを更新しました！");
-      } catch (error) {
-        console.error("趣味の登録に失敗しました:", error);
-        alert("趣味の登録に失敗しました。");
-      }
+      axios
+        .post(
+          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`,
+          { hobby_ids: hobbyIds }
+        )
+        .then(response => {
+          console.log("趣味リストが更新されました:", response.data);
+        })
+        .catch(error => {
+          console.error("趣味リストの更新に失敗しました:", error);
+        });
     },
   },
 };
@@ -167,23 +171,10 @@ export default {
   color: white;
 }
 
-/* 小さいデバイス用スタイル */
-@media (max-width: 480px) {
-  .app-container {
-    max-width: 100%;
-  }
-
-  .hobby-label {
-    font-size: 0.9em;
-  }
-
-  .selected-hobbies .hobby-label.selected {
-    font-size: 0.9em;
-  }
-}
-
 .submit-btn {
-  margin: 20px 0 0 0;
+  position:fixed;
+  bottom: 80px;
+  z-index: 2;
   width: 20%;
   padding: 10px;
   border-radius: 10px;
@@ -192,5 +183,6 @@ export default {
   border: none;
   cursor: pointer;
   font-size: 1.2em;
+  right: 30px;
 }
 </style>
