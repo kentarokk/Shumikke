@@ -7,7 +7,9 @@
           <img :src="getImageUrl(hobby.image)" alt="hobby image" />
           <div class="account">
             <div class="hobbyNameWrapper">
-              <router-link to="/hobbypost" class="postView">投稿を見る</router-link>
+              <router-link to="/hobbypost" class="postView"
+                >投稿を見る</router-link
+              >
               <h1 class="hobbyName">{{ hobby.name }}</h1>
             </div>
             <div class="mainText">
@@ -45,7 +47,7 @@ export default {
           `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`
         );
 
-        this.hobbies = response.data.map(hobby => ({
+        const myHobbies = response.data.map((hobby) => ({
           id: hobby.id,
           name: hobby.name,
           image: this.getImageUrl(hobby.image),
@@ -53,9 +55,20 @@ export default {
         }));
 
         // 趣味が0の場合、AddMyHobbyに遷移
-        if (this.hobbies.length === 0) {
-          this.$router.push({ name: 'AddMyHobby' });
+        if (myHobbies.length === 0) {
+          this.$router.push({ name: "AddMyHobby" });
         }
+
+        const response_suggest = await axios.get(
+          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/suggest?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b`
+        );
+
+        this.hobbies = response_suggest.data.map((hobby) => ({
+          id: hobby.id,
+          name: hobby.name,
+          image: this.getImageUrl(hobby.image),
+          introduction: hobby.introduction,
+        }));
       } catch (error) {
         console.error("Error fetching hobbies:", error);
       }
@@ -67,15 +80,16 @@ export default {
   methods: {
     getImageUrl(s3Url) {
       if (s3Url && s3Url.startsWith("s3://")) {
-        return s3Url.replace("s3://smk-data-bucket", "https://smk-data-bucket.s3.ap-northeast-1.amazonaws.com");
+        return s3Url.replace(
+          "s3://smk-data-bucket",
+          "https://smk-data-bucket.s3.ap-northeast-1.amazonaws.com"
+        );
       }
       return s3Url || "https://via.placeholder.com/100";
     },
-  }
+  },
 };
 </script>
-
-
 
 <style scoped>
 * {
