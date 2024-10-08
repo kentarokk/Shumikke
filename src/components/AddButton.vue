@@ -1,6 +1,10 @@
 <template>
   <div class="Add-button">
-    <i class="fa-solid fa-plus" @click="toggleAdd" :class="{ Added: isAdded }">
+    <i
+      class="fa-solid fa-plus"
+      @click="addTodoHobby"
+      :class="{ Added: isAdded }"
+    >
     </i>
   </div>
 </template>
@@ -14,8 +18,8 @@ export default {
   props: {
     hobbyId: {
       type: String, // 趣味IDの型を指定（文字列）
-      required: true // 必須のprops
-    }
+      required: true, // 必須のprops
+    },
   },
   data() {
     return {
@@ -23,7 +27,7 @@ export default {
     };
   },
   methods: {
-    async toggleAdd() {
+    async addTodoHobby() {
       if (this.isAdded) {
         alert("すでに追加されています");
         return;
@@ -38,10 +42,8 @@ export default {
         );
 
         if (response.status === 200) {
-          alert("やりたい趣味リストに追加されました");
           this.isAdded = true; // 登録成功後にフラグを更新
         } else {
-          alert("登録に失敗しました");
         }
       } catch (error) {
         console.error("Error adding hobby:", error);
@@ -51,8 +53,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style scoped>
 .Add-button {

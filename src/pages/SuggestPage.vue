@@ -3,7 +3,7 @@
     <div class="main">
       <ul class="cardWrapper">
         <li v-for="hobby in hobbies" :key="hobby.id" class="card">
-          <AddButton class="addButton" @click="addHobby(hobby.id)"></AddButton>
+          <AddButton class="addButton" :hobbyId="hobby.id"></AddButton>
           <img :src="getImageUrl(hobby.image)" alt="hobby image" />
           <div class="account">
             <div class="hobbyNameWrapper">
