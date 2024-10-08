@@ -20,7 +20,7 @@ const routes = [
     component: SuggestPage,
     meta: {
       requiresAuth: true,
-      pageTitle: "メインページ"
+      pageTitle: "おすすめの趣味",
     },
   },
   { path: "/login", name: "LoginPage", component: Login },
