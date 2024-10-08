@@ -1,10 +1,6 @@
 <template>
   <div class="allWrapper">
     <div class="app-container">
-      <div class="profile-section">
-        <p>{{ userName }}さんのマイページ</p>
-      </div>
-
       <div class="button-section">
         <router-link to="/emailchange" tag="button" class="buttonStyle">
           <i class="fas fa-envelope"></i> メールアドレス変更

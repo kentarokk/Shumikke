@@ -38,7 +38,7 @@ const routes = [
   {
     path: "/postingScreen",
     component: PostingScreen,
-    meta: { pageTitle: "投稿する" },
+    meta: { pageTitle: "投稿" },
   },
   {
     path: "/shopinfomation",
