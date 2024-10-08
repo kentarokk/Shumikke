@@ -7,9 +7,9 @@
           <img :src="getImageUrl(hobby.image)" alt="hobby image" />
           <div class="account">
             <div class="hobbyNameWrapper">
-              <router-link to="/hobbypost" class="postView"
+              <!-- <router-link to="/hobbypost" class="postView"
                 >投稿を見る</router-link
-              >
+              > -->
               <h1 class="hobbyName">{{ hobby.name }}</h1>
             </div>
             <div class="mainText">
