@@ -22,12 +22,16 @@
 
 <script>
 import axios from "axios";
+import { get_user_id } from "@/util"; // ユーザーIDを取得するための関数
 
 export default {
-  mounted() {
+  async mounted() {
+    const user_id = await get_user_id();
+
     axios
       .get(
-        "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
+        // "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
+        `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=${user_id}`
       )
       .then((response) => {
         this.hobbies = response.data.map((hobby) => ({
