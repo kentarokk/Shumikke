@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 import { get_user_id } from "@/util";
 
 export default {
@@ -60,7 +60,8 @@ export default {
         const allHobbies = allResponse.data;
 
         this.availableHobbies = allHobbies.filter(
-          hobby => !this.selectedHobbies.some(selected => selected.id === hobby.id)
+          (hobby) =>
+            !this.selectedHobbies.some((selected) => selected.id === hobby.id)
         );
       } catch (error) {
         console.error("趣味のデータ取得に失敗しました:", error);
@@ -71,38 +72,41 @@ export default {
     selectHobby(hobby) {
       this.selectedHobbies.push(hobby);
       this.availableHobbies = this.availableHobbies.filter(
-        available => available.id !== hobby.id
+        (available) => available.id !== hobby.id
       );
     },
     deselectHobby(hobbyId) {
-      const deselectedHobby = this.selectedHobbies.find(hobby => hobby.id === hobbyId);
+      const deselectedHobby = this.selectedHobbies.find(
+        (hobby) => hobby.id === hobbyId
+      );
 
       if (deselectedHobby) {
-        this.selectedHobbies = this.selectedHobbies.filter(hobby => hobby.id !== hobbyId);
-        
+        this.selectedHobbies = this.selectedHobbies.filter(
+          (hobby) => hobby.id !== hobbyId
+        );
+
         this.availableHobbies.push(deselectedHobby);
       }
     },
     submitHobbies() {
-      alert("MY趣味リストを更新します");
-      const hobbyIds = this.selectedHobbies.map(hobby => hobby.id);
+      const hobbyIds = this.selectedHobbies.map((hobby) => hobby.id);
 
       axios
         .post(
-          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${this.userId}`,
-          { hobby_ids: hobbyIds }
+          `https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/hobby?user_id=${
+            this.userId
+          }&hobby_ids=${hobbyIds.join(",")}`
         )
-        .then(response => {
+        .then((response) => {
           console.log("趣味リストが更新されました:", response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("趣味リストの更新に失敗しました:", error);
         });
     },
   },
 };
 </script>
-
 
 <style scoped>
 * {
@@ -172,7 +176,7 @@ export default {
 }
 
 .submit-btn {
-  position:fixed;
+  position: fixed;
   bottom: 80px;
   z-index: 2;
   width: 20%;
