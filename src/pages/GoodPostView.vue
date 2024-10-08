@@ -31,7 +31,7 @@ export default {
     GoodButton,
   },
   mounted() {
-    alert("いいねした投稿を取得する");
+    // alert("いいねした投稿を取得する");
   },
   data() {
     return {

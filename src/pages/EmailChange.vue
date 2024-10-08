@@ -38,7 +38,7 @@ export default {
     BackButton,
   },
   mounted() {
-    alert("ユーザーのメールアドレスを取得する");
+    // alert("ユーザーのメールアドレスを取得する");
   },
   data() {
     return {

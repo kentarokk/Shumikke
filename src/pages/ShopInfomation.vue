@@ -25,7 +25,7 @@ export default {
     BackButton,
   },
   mounted() {
-    alert("ビジネスごとのビジネス情報を取得する");
+    // alert("ビジネスごとのビジネス情報を取得する");
   },
   data() {
     return {

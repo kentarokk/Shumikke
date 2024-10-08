@@ -25,8 +25,6 @@ import axios from "axios";
 
 export default {
   mounted() {
-    console.log("mounted");
-
     axios
       .get(
         "https://pq0br03i97.execute-api.ap-northeast-1.amazonaws.com/dev/todo_hobby?user_id=27241a58-8041-70f7-fb7f-0ffac79afb6b"
