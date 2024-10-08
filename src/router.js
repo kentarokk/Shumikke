@@ -20,7 +20,7 @@ const routes = [
     component: SuggestPage,
     meta: {
       requiresAuth: true,
-      pageTitle: "メインページ"
+      pageTitle: "おすすめの趣味",
     },
   },
   { path: "/login", name: "LoginPage", component: Login },
@@ -38,7 +38,7 @@ const routes = [
   {
     path: "/postingScreen",
     component: PostingScreen,
-    meta: { pageTitle: "投稿する" },
+    meta: { pageTitle: "投稿" },
   },
   {
     path: "/shopinfomation",

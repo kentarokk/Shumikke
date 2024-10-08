@@ -50,7 +50,7 @@ export default {
     BackButton,
   },
   mounted() {
-    alert("ユーザーのIDとパスワードを取得する");
+    // alert("ユーザーのIDとパスワードを取得する");
   },
   data() {
     return {
